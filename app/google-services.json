@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "425714815292",
+    "project_id": "blessblend-a11fb",
+    "storage_bucket": "blessblend-a11fb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425714815292:android:0bbc337f09402a0c1cce39",
+        "android_client_info": {
+          "package_name": "com.blessed.blessblend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGSw4rmYEbFmK-x0nhNhWKYOQeoL-sfVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
