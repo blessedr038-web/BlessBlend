@@ -18,6 +18,10 @@ const val ROUTE_PRODUCT1 = "fair_tone_products"
 const val ROUTE_PRODUCT2 = "medium_tone_products"
 const val ROUTE_PRODUCT3 = "tan_tone_products"
 const val ROUTE_PRODUCT4 = "deep_tone_products"
+const val ROUTE_FINALE1 = "fair_tone"
+const val ROUTE_FINALE2 = "medium_tone"
+const val ROUTE_FINALE3 = "tan_tone"
+const val ROUTE_FINALE4 = "deep_tone"
 
 
 

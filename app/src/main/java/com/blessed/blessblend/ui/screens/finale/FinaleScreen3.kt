@@ -1,10 +1,6 @@
-package com.blessed.blessblend.ui.screens.product
+package com.blessed.blessblend.ui.screens.finale
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -14,18 +10,15 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
 import com.blessed.blessblend.navigation.ROUTE_FAVORITES
-import com.blessed.blessblend.navigation.ROUTE_FINALE1
 import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.navigation.ROUTE_PROFILE
 import com.blessed.blessblend.ui.theme.brown1
@@ -33,13 +26,15 @@ import com.blessed.blessblend.ui.theme.peach
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductScreen1(navController: NavController) {
-    var selectedIndex by remember { mutableStateOf(0) }
+fun FinaleScreen3(navController: NavController) {
+
+    var selectedIndex by remember { mutableStateOf(1) }
 
     Scaffold(
+        // ================= TOP BAR =================
         topBar = {
             TopAppBar(
-                title = { Text("Curated Products", fontWeight = FontWeight.Bold) },
+                title = { Text("Finale Screen", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -47,7 +42,7 @@ fun ProductScreen1(navController: NavController) {
                 },
                 actions = {
                     IconButton(onClick = {}) {
-                        Icon(Icons.Default.Info, contentDescription = "Info")
+                        Icon(imageVector = Icons.Default.Info, contentDescription = "Info")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -58,8 +53,11 @@ fun ProductScreen1(navController: NavController) {
                 )
             )
         },
+
+        // ================= BOTTOM BAR =================
         bottomBar = {
             NavigationBar(containerColor = peach) {
+                // 🏠 HOME
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
                     label = { Text("Home") },
@@ -69,87 +67,54 @@ fun ProductScreen1(navController: NavController) {
                         navController.navigate(ROUTE_HOME)
                     }
                 )
+
+                // 👤 PROFILE
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
                     label = { Text("Profile") },
-                    selected = selectedIndex == 1,
+                    selected = selectedIndex == 2, // Changed to 2 to avoid conflict with Home
                     onClick = {
                         selectedIndex = 2
                         navController.navigate(ROUTE_PROFILE)
                     }
                 )
+
+                // ❤️ FAVORITES
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
                     label = { Text("Favorites") },
-                    selected = selectedIndex == 2,
+                    selected = selectedIndex == 1,
                     onClick = {
                         selectedIndex = 1
                         navController.navigate(ROUTE_FAVORITES)
                     }
                 )
             }
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            // --- TOP SECTION: 80% Image ---
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.8f)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.p1),
-                    contentDescription = "Makeup Guide",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            }
+        },
 
-            // --- BOTTOM SECTION: 20% Info Area ---
+        // ================= CONTENT AREA =================
+        content = { paddingValues ->
+            // This combines the Column structure of FinaleScreen1 with the background of ScaffoldScreen
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.2f)
-                    .background(peach)
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState())
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .paint(
+                        painter = painterResource(R.drawable.finale3),
+                        contentScale = ContentScale.FillBounds
+                    )
+                    .padding()
             ) {
-                Text(
-                    text = "Application Guide",
-                    fontSize = 20.sp,
-                    color = brown1,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Reference the facial map above for ideal product placement.",
-                    color = Color.DarkGray,
-                    fontSize = 14.sp
-                )
 
-                Spacer(modifier = Modifier.height(12.dp))
 
-                // --- FIXED BUTTON ---
-                Button(
-                    onClick = {
-                        navController.navigate(ROUTE_FINALE1)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = brown1)
-                ) {
-                    Text(text = "Final Look", color = Color.White)
-                }
+                // Your Finale content goes here
             }
         }
-    }
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun ProductScreen1Preview() {
-    ProductScreen1(rememberNavController())
+fun FinaleScreen3Preview() {
+    FinaleScreen3(rememberNavController())
 }

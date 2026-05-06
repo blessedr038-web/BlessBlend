@@ -144,8 +144,11 @@ fun Screen2(navController: NavController) {
 
             Spacer(modifier = Modifier.height(40.dp))
 
+            // --- UPDATED BUTTON ---
             Button(
                 onClick = {
+                    // Double check that ROUTE_PRODUCT1 in your Navigation graph
+                    // actually points to ProductScreen1 and not the Finale.
                     navController.navigate(ROUTE_PRODUCT2)
                 },
                 modifier = Modifier
@@ -156,10 +159,10 @@ fun Screen2(navController: NavController) {
                 )
             ) {
                 Text(
-                    text = "View Curated Products",
+                    text = "Application",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = brown
+                    color = Color.White // Changed from 'brown' to 'Color.White' for better visibility on a dark button
                 )
             }
 

@@ -16,6 +16,10 @@ import com.blessed.blessblend.ui.screens.details.Screen2
 import com.blessed.blessblend.ui.screens.details.Screen3
 import com.blessed.blessblend.ui.screens.details.Screen4
 import com.blessed.blessblend.ui.screens.favorites.FavoritesScreen
+import com.blessed.blessblend.ui.screens.finale.FinaleScreen1
+import com.blessed.blessblend.ui.screens.finale.FinaleScreen2
+import com.blessed.blessblend.ui.screens.finale.FinaleScreen3
+import com.blessed.blessblend.ui.screens.finale.FinaleScreen4
 import com.blessed.blessblend.ui.screens.home.HomeScreen
 import com.blessed.blessblend.ui.screens.onboarding.OnboardingScreen
 import com.blessed.blessblend.ui.screens.product.ProductScreen1
@@ -63,7 +67,7 @@ fun AppNavHost(
             ForgotPasswordScreen(navController)
         }
 
-        composable("verify_email/{email}") { backStackEntry ->
+        composable(ROUTE_VERIFYEMAIL) { backStackEntry ->
             VerifyEmailScreen(navController)
         }
 
@@ -104,6 +108,22 @@ fun AppNavHost(
 
         composable(ROUTE_PRODUCT4) {
             ProductScreen4(navController)
+        }
+
+        composable(ROUTE_FINALE1) {
+            FinaleScreen1(navController)
+        }
+
+        composable(ROUTE_FINALE2) {
+            FinaleScreen2(navController)
+        }
+
+        composable(ROUTE_FINALE3) {
+            FinaleScreen3(navController)
+        }
+
+        composable(ROUTE_FINALE4) {
+            FinaleScreen4(navController)
         }
 
 

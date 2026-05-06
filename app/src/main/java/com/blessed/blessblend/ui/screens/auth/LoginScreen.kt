@@ -182,7 +182,7 @@ fun LoginTextField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(label, color = brown1, fontSize = 18.sp) },
+        label = { Text(label, color = TextDark, fontSize = 18.sp) },
         modifier = Modifier.fillMaxWidth(),
         trailingIcon = trailingIcon,
         singleLine = true,

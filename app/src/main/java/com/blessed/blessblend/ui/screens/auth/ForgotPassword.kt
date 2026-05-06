@@ -69,7 +69,7 @@ fun ForgotPasswordScreen(navController: NavController) {
         Text(
             text = "Enter your email to receive the instruction to reset your password",
             fontSize = 14.sp,
-            color = brown1,
+            color = TextDark,
             lineHeight = 25.sp
         )
 
@@ -79,7 +79,7 @@ fun ForgotPasswordScreen(navController: NavController) {
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Your Email", color = brown1, fontSize = 18.sp) },
+            label = { Text("Your Email", color = TextDark, fontSize = 18.sp) },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
@@ -116,7 +116,7 @@ fun ForgotPasswordScreen(navController: NavController) {
                             ).show()
 
                             // ✅ PASS EMAIL PROPERLY
-                            navController.navigate("verify_email/$email")
+                            navController.navigate(ROUTE_VERIFYEMAIL)
 
                         } else {
                             Toast.makeText(

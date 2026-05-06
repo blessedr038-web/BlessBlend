@@ -141,7 +141,7 @@ fun ProfileScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Kelly Jones",
+                    text = "Blessed Ronoh ",
                     fontSize = 26.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.SemiBold,
@@ -149,7 +149,7 @@ fun ProfileScreen(navController: NavController) {
                 )
 
                 Text(
-                    text = "kellyportman@gmail.com",
+                    text = "blessedr038@gmail.com",
                     fontSize = 16.sp,
                     color = TextDark
                 )

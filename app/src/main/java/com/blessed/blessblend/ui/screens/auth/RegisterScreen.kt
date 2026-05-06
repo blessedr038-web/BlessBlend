@@ -152,7 +152,7 @@ fun RegisterScreen(navController: NavController) {
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = PrimaryBrown)
             ) {
-                Text("Create account", color = brown, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                Text("Register", color = brown, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -160,7 +160,7 @@ fun RegisterScreen(navController: NavController) {
             Text(
                 text = "By signing up, you agreed to our Terms of Use and Privacy Policy",
                 fontSize = 12.sp,
-                color = brown1,
+                color = TextDark,
                 textAlign = TextAlign.Center,
                 lineHeight = 18.sp,
                 modifier = Modifier
@@ -181,7 +181,7 @@ fun CustomTextField(
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(label, color = brown1.copy(alpha = 0.7f)) },
+        label = { Text(label, color = TextDark.copy(alpha = 0.7f)) },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
         visualTransformation = if (isPassword) PasswordVisualTransformation() else androidx.compose.ui.text.input.VisualTransformation.None,

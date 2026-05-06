@@ -24,6 +24,10 @@ import com.blessed.blessblend.R
 import com.blessed.blessblend.navigation.ROUTE_FAVORITES
 import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.navigation.ROUTE_PROFILE
+import com.blessed.blessblend.navigation.ROUTE_SCREEN1
+import com.blessed.blessblend.navigation.ROUTE_SCREEN2
+import com.blessed.blessblend.navigation.ROUTE_SCREEN3
+import com.blessed.blessblend.navigation.ROUTE_SCREEN4
 import com.blessed.blessblend.ui.theme.brown1
 import com.blessed.blessblend.ui.theme.peach
 
@@ -119,14 +123,14 @@ fun HomeScreen(navController: NavController) {
                         modifier = Modifier.weight(1f),
                         imageRes = R.drawable.face1
                     ) {
-                        navController.navigate("fair_tone_screen")
+                        navController.navigate(ROUTE_SCREEN1)
                     }
 
                     SkinToneSection(
                         modifier = Modifier.weight(1f),
                         imageRes = R.drawable.face2
                     ) {
-                        navController.navigate("medium_tone_screen")
+                        navController.navigate(ROUTE_SCREEN2)
                     }
                 }
 
@@ -136,14 +140,14 @@ fun HomeScreen(navController: NavController) {
                         modifier = Modifier.weight(1f),
                         imageRes = R.drawable.face3
                     ) {
-                        navController.navigate("tan_tone_screen")
+                        navController.navigate(ROUTE_SCREEN3)
                     }
 
                     SkinToneSection(
                         modifier = Modifier.weight(1f),
                         imageRes = R.drawable.face4
                     ) {
-                        navController.navigate("deep_tone_screen")
+                        navController.navigate(ROUTE_SCREEN4)
                     }
                 }
             }

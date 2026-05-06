@@ -162,8 +162,8 @@ fun OnboardingScreen(
                 shape = RoundedCornerShape(28.dp)
             ) {
                 Text(
-                    text = "Continue with email",
-                    color = Color.White,
+                    text = "Create an account",
+                    color = Cream,
                     fontSize = 16.sp
                 )
             }

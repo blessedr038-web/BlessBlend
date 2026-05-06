@@ -145,9 +145,11 @@ fun Screen1(navController: NavController) {
 
             Spacer(modifier = Modifier.height(40.dp))
 
+            // --- UPDATED BUTTON ---
             Button(
                 onClick = {
                     navController.navigate(ROUTE_PRODUCT1)
+
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -157,10 +159,10 @@ fun Screen1(navController: NavController) {
                 )
             ) {
                 Text(
-                    text = "View Curated Products",
+                    text = "Application",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = brown
+                    color = Color.White // Changed from 'brown' to 'Color.White' for better visibility on a dark button
                 )
             }
 
