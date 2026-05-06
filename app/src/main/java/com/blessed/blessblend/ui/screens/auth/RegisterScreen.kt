@@ -1,5 +1,6 @@
 package com.blessed.blessblend.ui.screens.auth
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,61 +9,69 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.blessed.blessblend.R
 import com.blessed.blessblend.navigation.ROUTE_LOGIN
 import com.blessed.blessblend.ui.theme.PrimaryBrown
 import com.blessed.blessblend.ui.theme.TextDark
 import com.blessed.blessblend.ui.theme.TextGray
 import com.blessed.blessblend.ui.theme.brown1
 
+// 🔥 Firebase imports
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+
 @Composable
 fun RegisterScreen(navController: NavController) {
+
+    val context = LocalContext.current
+
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // Use a Box to layer the background and content
+    val auth = FirebaseAuth.getInstance()
+    val database = FirebaseDatabase.getInstance().reference
+
     Box(modifier = Modifier.fillMaxSize()) {
-        // 1. New Background Image (From image_7.png)
+
         Image(
-            // Replace 'img_background' with the actual drawable file name
-            painter = painterResource(id = com.blessed.blessblend.R.drawable.img),
+            painter = painterResource(id = R.drawable.img),
             contentDescription = null,
-            contentScale = ContentScale.Crop, // Fill the screen without distortion
+            contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
 
-        // 2. The Content Column (Layered on top)
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .statusBarsPadding() // Add padding for the status bar
+                .statusBarsPadding()
                 .padding(horizontal = 24.dp)
         ) {
-            // Functional Back Arrow
+
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Back",
                 modifier = Modifier
                     .padding(top = 16.dp, bottom = 24.dp)
-                    .clickable { navController.popBackStack() }, // Navigates back
+                    .clickable { navController.popBackStack() },
                 tint = TextDark
             )
 
-            // Serif Title to match editorial branding
             Text(
                 text = "Sign up",
                 fontSize = 34.sp,
@@ -72,23 +81,70 @@ fun RegisterScreen(navController: NavController) {
                 modifier = Modifier.padding(bottom = 32.dp)
             )
 
-            // Input Fields (With fixed logic and styling)
-            CustomTextField(value = firstName, onValueChange = { firstName = it }, label = "First name")
+            CustomTextField(firstName, { firstName = it }, "First name")
             Spacer(modifier = Modifier.height(16.dp))
 
-            CustomTextField(value = lastName, onValueChange = { lastName = it }, label = "Last name")
+            CustomTextField(lastName, { lastName = it }, "Last name")
             Spacer(modifier = Modifier.height(16.dp))
 
-            CustomTextField(value = email, onValueChange = { email = it }, label = "Email")
+            CustomTextField(email, { email = it }, "Email")
             Spacer(modifier = Modifier.height(16.dp))
 
-            CustomTextField(value = password, onValueChange = { password = it }, label = "Password", isPassword = true)
+            CustomTextField(password, { password = it }, "Password", true)
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Create Account Button
             Button(
-                onClick = { navController.navigate(ROUTE_LOGIN) },
+                onClick = {
+
+                    // 🔒 Basic validation
+                    if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                        Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+
+                    if (password.length < 6) {
+                        Toast.makeText(context, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+
+                    // 🔥 Firebase Auth - Create User
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+
+                            if (task.isSuccessful) {
+
+                                val userId = auth.currentUser?.uid
+
+                                // 📦 User data model
+                                val userMap = HashMap<String, String>()
+                                userMap["firstName"] = firstName
+                                userMap["lastName"] = lastName
+                                userMap["email"] = email
+                                userMap["uid"] = userId ?: ""
+
+                                // 🔥 Save to Realtime Database
+                                database.child("Users").child(userId!!)
+                                    .setValue(userMap)
+                                    .addOnCompleteListener {
+
+                                        Toast.makeText(context, "Account created successfully", Toast.LENGTH_SHORT).show()
+
+                                        // Navigate to login
+                                        navController.navigate(ROUTE_LOGIN) {
+                                            popUpTo(0)
+                                        }
+                                    }
+
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    task.exception?.message ?: "Registration failed",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
@@ -100,7 +156,6 @@ fun RegisterScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Terms text
             Text(
                 text = "By signing up, you agreed to our Terms of Use and Privacy Policy",
                 fontSize = 12.sp,
@@ -115,7 +170,6 @@ fun RegisterScreen(navController: NavController) {
     }
 }
 
-// Minimalist text field for a cleaner look against the complex background
 @Composable
 fun CustomTextField(
     value: String,
@@ -129,6 +183,7 @@ fun CustomTextField(
         label = { Text(label, color = brown1.copy(alpha = 0.7f)) },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
+        visualTransformation = if (isPassword) PasswordVisualTransformation() else androidx.compose.ui.text.input.VisualTransformation.None,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,

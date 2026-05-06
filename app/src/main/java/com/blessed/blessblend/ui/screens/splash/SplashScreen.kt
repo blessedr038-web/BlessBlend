@@ -3,7 +3,7 @@ package com.blessed.blessblend.ui.screens.splash
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
@@ -13,25 +13,37 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
+import com.blessed.blessblend.navigation.ROUTE_ONBOARDING
+import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController){
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .paint(painter = painterResource(R.drawable.background), contentScale = ContentScale.FillBounds)
-        .padding(24.dp)
+    // 🚀 Runs once when screen opens
+    LaunchedEffect(Unit) {
+        delay(2000) // 2 seconds delay
 
+        navController.navigate(ROUTE_ONBOARDING) {
+            popUpTo(0) // clears splash from backstack
+        }
+    }
+
+    // 🔒 UI unchanged
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .paint(
+                painter = painterResource(R.drawable.img),
+                contentScale = ContentScale.FillBounds
+            )
+            .padding(24.dp)
     ) {
 
     }
-
-
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SplashScreenPreview(){
     SplashScreen(rememberNavController())
-
 }

@@ -8,7 +8,7 @@ val TextDark= Color(0xFF1D1B1B)
 
 val TextGray = Color(0xFF757575)
 val brown1= Color(0xFF4A3732)
-val brown= Color(0xFFF5E6DA)
+val brown= Color(0xFFCBAE99)
 val TextSecondary= Color(0xFF6D4C41)
 val SubtitleGray= Color(0xFF9E9E9E)
 val BorderGray= Color(0xFFC4C4C4)
@@ -22,4 +22,6 @@ val Background= Color(0xFFE7CDB7)
 val GoldOverlay= Color(0x66000000)
 val TextMain= Color(0xFF1D1B1B)
 val ButtonDark= Color(0xFF3E2723)
+val Cream= Color(0xFFFFFDD0)
+
 

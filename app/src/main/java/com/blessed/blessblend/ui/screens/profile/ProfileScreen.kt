@@ -29,6 +29,7 @@ import com.blessed.blessblend.ui.theme.GoldDeep
 import com.blessed.blessblend.ui.theme.GoldPearl
 import com.blessed.blessblend.ui.theme.TextDark
 import com.blessed.blessblend.ui.theme.TextGray
+import com.blessed.blessblend.ui.theme.brown
 import com.blessed.blessblend.ui.theme.brown1
 
 
@@ -77,15 +78,19 @@ fun ProfileScreen(navController: NavController) {
             )
             Text(
                 text = "kellyportman@gmail.com",
-                fontSize = 14.sp,
-                color = brown1
+                fontSize = 16.sp,
+                color = brown
             )
             Spacer(modifier = Modifier.height(32.dp))
         }
 
 
 
+
+
     }
+
+
 }
 
 @Preview(showBackground = true)

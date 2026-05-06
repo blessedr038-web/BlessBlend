@@ -1,5 +1,6 @@
 package com.blessed.blessblend.ui.screens.auth
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -12,8 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,13 +24,21 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
 import com.blessed.blessblend.navigation.ROUTE_FORGOTPASSWORD
+import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.ui.theme.PrimaryBrown
 import com.blessed.blessblend.ui.theme.TextDark
 import com.blessed.blessblend.ui.theme.TextGray
 import com.blessed.blessblend.ui.theme.brown1
 
+// 🔥 Firebase
+import com.google.firebase.auth.FirebaseAuth
+
 @Composable
 fun LoginScreen(navController: NavController) {
+
+    val context = LocalContext.current
+    val auth = FirebaseAuth.getInstance()
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var rememberMe by remember { mutableStateOf(true) }
@@ -38,8 +49,11 @@ fun LoginScreen(navController: NavController) {
             .paint(painter = painterResource(R.drawable.img), contentScale = ContentScale.FillBounds)
             .padding(24.dp)
     ) {
-        // Back Arrow
-        IconButton(onClick = {navController.popBackStack()}, modifier = Modifier.offset(x = (-12).dp)) {
+
+        IconButton(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier.offset(x = (-12).dp)
+        ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Back",
@@ -49,7 +63,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Title
         Text(
             text = "Log in",
             fontSize = 32.sp,
@@ -58,7 +71,6 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 40.dp)
         )
 
-        // Email Field
         LoginTextField(
             value = email,
             onValueChange = { email = it },
@@ -67,7 +79,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Password Field with Eye Icon
         LoginTextField(
             value = password,
             onValueChange = { password = it },
@@ -84,7 +95,6 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Row for Remember Me and Forgot Password
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -105,7 +115,9 @@ fun LoginScreen(navController: NavController) {
                 Text("Remember", color = TextDark, fontSize = 14.sp)
             }
 
-            TextButton(onClick = { /* Handle forgot password */ }) {
+            TextButton(onClick = {
+                navController.navigate(ROUTE_FORGOTPASSWORD)
+            }) {
                 Text(
                     "Forgot password?",
                     color = brown1,
@@ -117,9 +129,36 @@ fun LoginScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(48.dp))
 
-        // Log in Button
         Button(
-            onClick = {  navController.navigate(ROUTE_FORGOTPASSWORD)},
+            onClick = {
+
+                // 🔒 Validation
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                    return@Button
+                }
+
+                // 🔥 Firebase Login
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+
+                        if (task.isSuccessful) {
+
+                            Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+
+                            navController.navigate(ROUTE_HOME) {
+                                popUpTo(0)
+                            }
+
+                        } else {
+                            Toast.makeText(
+                                context,
+                                task.exception?.message ?: "Login failed",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -129,13 +168,6 @@ fun LoginScreen(navController: NavController) {
             Text("Log in", color = Color.White, fontSize = 16.sp)
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview(){
-    LoginScreen(rememberNavController())
-
 }
 
 @Composable
@@ -152,6 +184,8 @@ fun LoginTextField(
         label = { Text(label, color = brown1, fontSize = 18.sp) },
         modifier = Modifier.fillMaxWidth(),
         trailingIcon = trailingIcon,
+        singleLine = true,
+        visualTransformation = if (isPassword) PasswordVisualTransformation() else androidx.compose.ui.text.input.VisualTransformation.None,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
@@ -161,4 +195,10 @@ fun LoginTextField(
             cursorColor = TextDark
         )
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview(){
+    LoginScreen(rememberNavController())
 }

@@ -11,6 +11,10 @@ import com.blessed.blessblend.ui.screens.auth.ForgotPasswordScreen
 import com.blessed.blessblend.ui.screens.auth.LoginScreen
 import com.blessed.blessblend.ui.screens.auth.RegisterScreen
 import com.blessed.blessblend.ui.screens.auth.VerifyEmailScreen
+import com.blessed.blessblend.ui.screens.details.Screen1
+import com.blessed.blessblend.ui.screens.details.Screen2
+import com.blessed.blessblend.ui.screens.details.Screen3
+import com.blessed.blessblend.ui.screens.details.Screen4
 import com.blessed.blessblend.ui.screens.home.HomeScreen
 import com.blessed.blessblend.ui.screens.onboarding.OnboardingScreen
 import com.blessed.blessblend.ui.screens.profile.ProfileScreen
@@ -21,7 +25,7 @@ import com.blessed.blessblend.ui.screens.splash.SplashScreen
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = ROUTE_ONBOARDING
+    startDestination: String = ROUTE_SPLASH
 ) {
 
     NavHost(
@@ -68,6 +72,18 @@ fun AppNavHost(
                     // Handle Google Sign-In logic or navigate
                     navController.navigate(ROUTE_REGISTER)
                 })
+        }
+        composable(ROUTE_SCREEN1) {
+            Screen1(navController)
+        }
+        composable(ROUTE_SCREEN2) {
+            Screen2(navController)
+        }
+        composable(ROUTE_SCREEN3) {
+            Screen3(navController)
+        }
+        composable(ROUTE_SCREEN4) {
+            Screen4(navController)
         }
 
 

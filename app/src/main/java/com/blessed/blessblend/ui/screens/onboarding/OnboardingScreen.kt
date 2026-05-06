@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +35,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.navigation.compose.rememberNavController
+import com.blessed.blessblend.navigation.ROUTE_FORGOTPASSWORD
 import com.blessed.blessblend.navigation.ROUTE_HOME
+import com.blessed.blessblend.navigation.ROUTE_REGISTER
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import kotlinx.coroutines.launch
 
@@ -67,22 +70,27 @@ fun OnboardingScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Text(
-                text = "Log in",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .statusBarsPadding()
-                    .padding(top = 16.dp),
-                textAlign = TextAlign.End,
-                color = brown1,
-                fontSize = 20.sp
-            )
+            TextButton(onClick = {
+                navController.navigate(ROUTE_LOGIN)
+            }) {
+                Text(
+                    "Login",
+                    modifier = Modifier
+                            .fillMaxWidth()
+                           .statusBarsPadding()
+                        .padding(top = 16.dp),
+                    textAlign = TextAlign.End,
+                    color = Cream,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 
             Text(
                 text = "Discover ",
-                color = brown,
+                color = Cream,
                 fontSize = 50.sp,
                 letterSpacing = 0.5.sp
             )
@@ -143,7 +151,7 @@ fun OnboardingScreen(
             Button(
                 onClick = {
                     onEmailClick()
-                    navController.navigate(ROUTE_LOGIN)
+                    navController.navigate(ROUTE_REGISTER)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
