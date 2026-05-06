@@ -4,10 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
@@ -20,93 +24,169 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
-import com.blessed.blessblend.navigation.ROUTE_PRODUCT1
+import com.blessed.blessblend.navigation.*
 import com.blessed.blessblend.ui.theme.brown
+import com.blessed.blessblend.ui.theme.brown1
+import com.blessed.blessblend.ui.theme.peach
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Screen1(navController: NavController) {
-    // Using the Cream color we defined earlier
-    val creamBackground = Color(0xFFCBAE99)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .paint(painter = painterResource(R.drawable.img), contentScale = ContentScale.FillBounds)
-            .verticalScroll(rememberScrollState())
-            .padding(24.dp)
-    ) {
-        Spacer(modifier = Modifier.height(30.dp) )
-        Text(
-            text = "Fair Skin Tone",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.DarkGray,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+    var selectedIndex by remember { mutableStateOf(0) }
 
-        Text(
-            text = "Luminous Minimalism",
-            fontSize = 21.sp,
-            color = Color(0xFF4E342E),
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
+    Scaffold(
 
-        InfoSection(
-            title = "Recommended Palette",
-            description = "Focus on Cool Pinks & Champagne. Use soft pastels, taupes, and rosy tones to enhance your natural glow without overpowering it."
-        )
-
-        InfoSection(
-            title = "The Guidance",
-            description = "Since fair skin shows pigment easily, try cream-based blushes for a natural flush. For eyes, champagne shimmers and soft mauves are your best friends."
-        )
-
-        InfoSection(
-            title = "Digital Vanity Tip",
-            description = "Save your favorite soft-glam looks to your Digital Vanity to keep track of styles that suit you perfectly."
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        // --- BUTTON ADDED HERE ---
-        Button(
-            onClick = {
-                navController.navigate(ROUTE_PRODUCT1)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF5D4037)
+        // ================= TOP BAR =================
+        topBar = {
+            TopAppBar(
+                title = { Text("Fair Skin Guide") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.Info, contentDescription = "Info")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = peach,
+                    titleContentColor = brown1,
+                    navigationIconContentColor = brown1,
+                    actionIconContentColor = brown1
+                )
             )
-        ) {
-            Text(
-                text = "View Curated Products",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = brown
-            )
+        },
+
+        // ================= BOTTOM BAR =================
+        bottomBar = {
+            NavigationBar(containerColor = peach) {
+
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                    label = { Text("Home") },
+                    selected = selectedIndex == 0,
+                    onClick = {
+                        selectedIndex = 0
+                        navController.navigate(ROUTE_HOME)
+                    }
+                )
+
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
+                    label = { Text("Profile") },
+                    selected = selectedIndex == 1,
+                    onClick = {
+                        selectedIndex = 1
+                        navController.navigate(ROUTE_PROFILE)
+                    }
+                )
+
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
+                    label = { Text("Favorites") },
+                    selected = selectedIndex == 2,
+                    onClick = {
+                        selectedIndex = 2
+                        navController.navigate(ROUTE_FAVORITES)
+                    }
+                )
+            }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+    ) { paddingValues ->
+
+        // ================= SCREEN CONTENT =================
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .paint(
+                    painter = painterResource(R.drawable.img),
+                    contentScale = ContentScale.FillBounds
+                )
+                .verticalScroll(rememberScrollState())
+                .padding(24.dp)
+        ) {
+
+
+
+            Text(
+                text = "Fair Skin Tone",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.DarkGray,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Text(
+                text = "Luminous Minimalism",
+                fontSize = 21.sp,
+                color = Color(0xFF4E342E),
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+
+            InfoSection(
+                title = "Recommended Palette",
+                description = "Focus on Cool Pinks & Champagne. Use soft pastels, taupes, and rosy tones to enhance your natural glow without overpowering it."
+            )
+
+            InfoSection(
+                title = "The Guidance",
+                description = "Since fair skin shows pigment easily, try cream-based blushes for a natural flush. For eyes, champagne shimmers and soft mauves are your best friends."
+            )
+
+            InfoSection(
+                title = "Digital Vanity Tip",
+                description = "Save your favorite soft-glam looks to your Digital Vanity to keep track of styles that suit you perfectly."
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            Button(
+                onClick = {
+                    navController.navigate(ROUTE_PRODUCT1)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF5D4037)
+                )
+            ) {
+                Text(
+                    text = "View Curated Products",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = brown
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+        }
     }
 }
 
 @Composable
 fun InfoSection(title: String, description: String) {
     Column(modifier = Modifier.padding(vertical = 12.dp)) {
+
         Text(
             text = title,
             fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
-            color =  Color(0xFF4E342E) // A soft deep brown for the headers
+            color = Color(0xFF4E342E)
         )
+
         Spacer(modifier = Modifier.height(4.dp))
+
         Text(
             text = description,
             fontSize = 16.sp,
             lineHeight = 24.sp,
-            color =  Color.DarkGray
+            color = Color.DarkGray
         )
     }
 }

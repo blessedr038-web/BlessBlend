@@ -95,6 +95,8 @@ fun ScaffoldScreen(navController: NavController){
                         navController.navigate(ROUTE_HOME)
                     }
                 )
+
+
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Person, contentDescription = "profile") },
                     label = { Text("Profile") },

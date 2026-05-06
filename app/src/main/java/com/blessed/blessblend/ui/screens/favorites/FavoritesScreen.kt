@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
@@ -22,6 +23,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
 import com.blessed.blessblend.navigation.ROUTE_HOME
+import com.blessed.blessblend.navigation.ROUTE_PROFILE
 import com.blessed.blessblend.ui.theme.brown
 import com.blessed.blessblend.ui.theme.brown1
 import com.blessed.blessblend.ui.theme.peach
@@ -55,8 +57,8 @@ fun FavoritesScreen(navController: NavController) {
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = peach,
                     titleContentColor = brown1,
-                    navigationIconContentColor = Color.White,
-                    actionIconContentColor = Color.White
+                    navigationIconContentColor = brown1,
+                    actionIconContentColor = brown1
                 ),
                 actions = {
                     IconButton(onClick = {}) {
@@ -70,13 +72,25 @@ fun FavoritesScreen(navController: NavController) {
         bottomBar = {
             NavigationBar(containerColor = peach) {
 
+                // 🏠 HOME
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                    label = { Text("Home") },
+                    selected = selectedIndex == 0,
+                    onClick = {
+                        selectedIndex = 0
+                        navController.navigate(ROUTE_HOME)
+                    }
+                )
+
+
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Person, contentDescription = "Home") },
                     label = { Text("Profile") },
                     selected = selectedIndex == 0,
                     onClick = {
                         selectedIndex = 0
-                        navController.navigate(ROUTE_HOME)
+                        navController.navigate(ROUTE_PROFILE)
                     }
                 )
 

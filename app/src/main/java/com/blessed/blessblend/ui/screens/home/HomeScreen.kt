@@ -40,11 +40,7 @@ fun HomeScreen(navController: NavController) {
         topBar = {
             TopAppBar(
                 title = { Text("Home") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                },
+
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = peach,
                     titleContentColor = brown1,
@@ -74,17 +70,6 @@ fun HomeScreen(navController: NavController) {
                     }
                 )
 
-                // ❤️ FAVORITES
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
-                    label = { Text("Favorites") },
-                    selected = selectedIndex == 1,
-                    onClick = {
-                        selectedIndex = 1
-                        navController.navigate(ROUTE_FAVORITES)
-                    }
-                )
-
                 // 👤 PROFILE
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
@@ -93,6 +78,17 @@ fun HomeScreen(navController: NavController) {
                     onClick = {
                         selectedIndex = 2
                         navController.navigate(ROUTE_PROFILE)
+                    }
+                )
+
+                // ❤️ FAVORITES
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
+                    label = { Text("Favorites") },
+                    selected = selectedIndex == 1,
+                    onClick = {
+                        selectedIndex = 1
+                        navController.navigate(ROUTE_FAVORITES)
                     }
                 )
             }
