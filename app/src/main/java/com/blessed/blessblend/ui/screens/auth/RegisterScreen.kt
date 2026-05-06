@@ -28,6 +28,7 @@ import com.blessed.blessblend.navigation.ROUTE_LOGIN
 import com.blessed.blessblend.ui.theme.PrimaryBrown
 import com.blessed.blessblend.ui.theme.TextDark
 import com.blessed.blessblend.ui.theme.TextGray
+import com.blessed.blessblend.ui.theme.brown
 import com.blessed.blessblend.ui.theme.brown1
 
 // 🔥 Firebase imports
@@ -151,7 +152,7 @@ fun RegisterScreen(navController: NavController) {
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = PrimaryBrown)
             ) {
-                Text("Create account", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                Text("Create account", color = brown, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
             }
 
             Spacer(modifier = Modifier.height(24.dp))

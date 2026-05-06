@@ -28,6 +28,7 @@ import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.ui.theme.PrimaryBrown
 import com.blessed.blessblend.ui.theme.TextDark
 import com.blessed.blessblend.ui.theme.TextGray
+import com.blessed.blessblend.ui.theme.brown
 import com.blessed.blessblend.ui.theme.brown1
 
 // 🔥 Firebase
@@ -165,7 +166,7 @@ fun LoginScreen(navController: NavController) {
             shape = RoundedCornerShape(percent = 50),
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryBrown)
         ) {
-            Text("Log in", color = Color.White, fontSize = 16.sp)
+            Text("Log in", color = brown, fontSize = 16.sp)
         }
     }
 }

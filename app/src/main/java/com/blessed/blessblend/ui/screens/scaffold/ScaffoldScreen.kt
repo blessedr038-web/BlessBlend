@@ -7,9 +7,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -35,9 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
+import com.blessed.blessblend.navigation.ROUTE_FAVORITES
 import com.blessed.blessblend.navigation.ROUTE_HOME
+import com.blessed.blessblend.navigation.ROUTE_PROFILE
 import com.blessed.blessblend.ui.theme.brown
 import com.blessed.blessblend.ui.theme.brown1
+import com.blessed.blessblend.ui.theme.peach
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +55,7 @@ fun ScaffoldScreen(navController: NavController){
         //TopBar
         topBar = {
             TopAppBar(
-                title = { Text("Item Screen") },
+                title = { Text("Screen") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -60,10 +63,10 @@ fun ScaffoldScreen(navController: NavController){
                 },
                 colors = TopAppBarDefaults.run {
                     topAppBarColors(
-                        containerColor = brown,
+                        containerColor = peach,
                         titleContentColor = brown1,
-                        navigationIconContentColor = Color.White,
-                        actionIconContentColor = Color.White
+                        navigationIconContentColor =brown1,
+                        actionIconContentColor =brown1
                     )
                 },
                 actions = {
@@ -79,11 +82,13 @@ fun ScaffoldScreen(navController: NavController){
         //BottomBar
         bottomBar = {
             NavigationBar(
-                containerColor =brown
+                containerColor =peach
             ){
+
+                // 🏠 HOME
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Home") },
-                    label = { Text("Login") },
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                    label = { Text("Home") },
                     selected = selectedIndex == 0,
                     onClick = {
                         selectedIndex = 0
@@ -91,11 +96,20 @@ fun ScaffoldScreen(navController: NavController){
                     }
                 )
                 NavigationBarItem(
+                    icon = { Icon(Icons.Default.Person, contentDescription = "profile") },
+                    label = { Text("Profile") },
+                    selected = selectedIndex == 0,
+                    onClick = {
+                        selectedIndex = 0
+                        navController.navigate(ROUTE_PROFILE)
+                    }
+                )
+                NavigationBarItem(
                     icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
                     label = { Text("Favorites") },
                     selected = selectedIndex == 1,
                     onClick = { selectedIndex = 1
-                        navController.navigate(ROUTE_HOME)
+                        navController.navigate(ROUTE_FAVORITES)
                     }
                 )
 
@@ -104,15 +118,7 @@ fun ScaffoldScreen(navController: NavController){
             }
         },
 
-        //FloatingActionButton
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /* Add action */ },
-                containerColor = brown
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
-            }
-        },
+
 
         //Contents
 

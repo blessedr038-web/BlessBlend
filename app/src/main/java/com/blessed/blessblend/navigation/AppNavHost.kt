@@ -15,10 +15,14 @@ import com.blessed.blessblend.ui.screens.details.Screen1
 import com.blessed.blessblend.ui.screens.details.Screen2
 import com.blessed.blessblend.ui.screens.details.Screen3
 import com.blessed.blessblend.ui.screens.details.Screen4
+import com.blessed.blessblend.ui.screens.favorites.FavoritesScreen
 import com.blessed.blessblend.ui.screens.home.HomeScreen
 import com.blessed.blessblend.ui.screens.onboarding.OnboardingScreen
+import com.blessed.blessblend.ui.screens.product.ProductScreen1
+import com.blessed.blessblend.ui.screens.product.ProductScreen2
+import com.blessed.blessblend.ui.screens.product.ProductScreen3
+import com.blessed.blessblend.ui.screens.product.ProductScreen4
 import com.blessed.blessblend.ui.screens.profile.ProfileScreen
-import com.blessed.blessblend.ui.screens.search.SearchScreen
 import com.blessed.blessblend.ui.screens.splash.SplashScreen
 
 @Composable
@@ -42,8 +46,8 @@ fun AppNavHost(
         composable(ROUTE_HOME) {
             HomeScreen(navController)
         }
-        composable(ROUTE_SEARCH) {
-            SearchScreen(navController)
+        composable(ROUTE_FAVORITES) {
+            FavoritesScreen(navController)
         }
 
         composable(ROUTE_REGISTER) {
@@ -59,7 +63,7 @@ fun AppNavHost(
             ForgotPasswordScreen(navController)
         }
 
-        composable(ROUTE_VERIFYEMAIL) {
+        composable("verify_email/{email}") { backStackEntry ->
             VerifyEmailScreen(navController)
         }
 
@@ -85,6 +89,32 @@ fun AppNavHost(
         composable(ROUTE_SCREEN4) {
             Screen4(navController)
         }
+
+        composable(ROUTE_PRODUCT1) {
+            ProductScreen1(navController)
+        }
+
+        composable(ROUTE_PRODUCT2) {
+            ProductScreen2(navController)
+        }
+
+        composable(ROUTE_PRODUCT3) {
+            ProductScreen3(navController)
+        }
+
+        composable(ROUTE_PRODUCT4) {
+            ProductScreen4(navController)
+        }
+
+
+
+
+
+
+
+
+
+
 
 
 

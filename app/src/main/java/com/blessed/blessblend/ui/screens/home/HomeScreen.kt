@@ -3,9 +3,14 @@ package com.blessed.blessblend.ui.screens.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
@@ -16,66 +21,147 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
+import com.blessed.blessblend.navigation.ROUTE_FAVORITES
+import com.blessed.blessblend.navigation.ROUTE_HOME
+import com.blessed.blessblend.navigation.ROUTE_PROFILE
+import com.blessed.blessblend.ui.theme.brown1
+import com.blessed.blessblend.ui.theme.peach
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
-    // The Box acts as the root container to keep the background image static
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .paint(
-                painter = painterResource(R.drawable.img),
-                contentScale = ContentScale.FillBounds
+
+    // ✅ Default to HOME selected
+    var selectedIndex by remember { mutableStateOf(0) }
+
+    Scaffold(
+
+        // 🔝 Top Bar
+        topBar = {
+            TopAppBar(
+                title = { Text("Home") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = peach,
+                    titleContentColor = brown1,
+                    navigationIconContentColor = brown1,
+                    actionIconContentColor = brown1
+                ),
+                actions = {
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.Info, contentDescription = "")
+                    }
+                }
             )
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp)
-        ) {
-            // Top Row: Section 1 (Fair) & Section 2 (Medium)
-            Row(modifier = Modifier.weight(1f)) {
-                SkinToneSection(
-                    modifier = Modifier.weight(1f),
-                    imageRes = R.drawable.face1
-                ) {
-                    navController.navigate("fair_tone_screen")
-                }
+        },
 
-                SkinToneSection(
-                    modifier = Modifier.weight(1f),
-                    imageRes = R.drawable.face2
-                ) {
-                    navController.navigate("medium_tone_screen")
-                }
+        // 🔻 Bottom Bar (UPDATED)
+        bottomBar = {
+            NavigationBar(containerColor = peach) {
+
+                // 🏠 HOME
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+                    label = { Text("Home") },
+                    selected = selectedIndex == 0,
+                    onClick = {
+                        selectedIndex = 0
+                        navController.navigate(ROUTE_HOME)
+                    }
+                )
+
+                // ❤️ FAVORITES
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
+                    label = { Text("Favorites") },
+                    selected = selectedIndex == 1,
+                    onClick = {
+                        selectedIndex = 1
+                        navController.navigate(ROUTE_FAVORITES)
+                    }
+                )
+
+                // 👤 PROFILE
+                NavigationBarItem(
+                    icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
+                    label = { Text("Profile") },
+                    selected = selectedIndex == 2,
+                    onClick = {
+                        selectedIndex = 2
+                        navController.navigate(ROUTE_PROFILE)
+                    }
+                )
             }
+        }
 
-            // Bottom Row: Section 3 (Tan) & Section 4 (Deep)
-            Row(modifier = Modifier.weight(1f)) {
-                SkinToneSection(
-                    modifier = Modifier.weight(1f),
-                    imageRes = R.drawable.face3
-                ) {
-                    navController.navigate("tan_tone_screen")
+    ) { paddingValues ->
+
+        // 🔥 ORIGINAL UI (UNCHANGED)
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .paint(
+                    painter = painterResource(R.drawable.img),
+                    contentScale = ContentScale.FillBounds
+                )
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp)
+            ) {
+
+                Row(modifier = Modifier.weight(1f)) {
+
+                    SkinToneSection(
+                        modifier = Modifier.weight(1f),
+                        imageRes = R.drawable.face1
+                    ) {
+                        navController.navigate("fair_tone_screen")
+                    }
+
+                    SkinToneSection(
+                        modifier = Modifier.weight(1f),
+                        imageRes = R.drawable.face2
+                    ) {
+                        navController.navigate("medium_tone_screen")
+                    }
                 }
 
-                SkinToneSection(
-                    modifier = Modifier.weight(1f),
-                    imageRes = R.drawable.face4
-                ) {
-                    navController.navigate("deep_tone_screen")
+                Row(modifier = Modifier.weight(1f)) {
+
+                    SkinToneSection(
+                        modifier = Modifier.weight(1f),
+                        imageRes = R.drawable.face3
+                    ) {
+                        navController.navigate("tan_tone_screen")
+                    }
+
+                    SkinToneSection(
+                        modifier = Modifier.weight(1f),
+                        imageRes = R.drawable.face4
+                    ) {
+                        navController.navigate("deep_tone_screen")
+                    }
                 }
             }
         }
     }
 }
 
-/**
- * Reusable component for each skin tone quadrant.
- * containerColor is set to Transparent to ensure the main background shows through.
- */
+// 🔁 Reusable Section (UNCHANGED)
 @Composable
-fun SkinToneSection(modifier: Modifier, imageRes: Int, onClick: () -> Unit) {
+fun SkinToneSection(
+    modifier: Modifier,
+    imageRes: Int,
+    onClick: () -> Unit
+) {
     Card(
         modifier = modifier
             .padding(8.dp)

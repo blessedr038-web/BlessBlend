@@ -23,5 +23,6 @@ val GoldOverlay= Color(0x66000000)
 val TextMain= Color(0xFF1D1B1B)
 val ButtonDark= Color(0xFF3E2723)
 val Cream= Color(0xFFFFFDD0)
+val peach= Color(0xFFEEC1A7)
 
 

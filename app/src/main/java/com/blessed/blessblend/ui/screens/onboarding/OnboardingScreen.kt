@@ -1,4 +1,7 @@
 package com.blessed.blessblend.ui.screens.onboarding
+import android.util.Log
+import androidx.credentials.CustomCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
@@ -35,7 +38,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.navigation.compose.rememberNavController
-import com.blessed.blessblend.navigation.ROUTE_FORGOTPASSWORD
 import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.navigation.ROUTE_REGISTER
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -135,7 +137,7 @@ fun OnboardingScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                colors = ButtonDefaults.buttonColors(containerColor = brown),
                 shape = RoundedCornerShape(28.dp),
                 border = BorderStroke(1.dp, Color.LightGray)
             ) {
@@ -174,6 +176,7 @@ fun OnboardingScreen(
 /**
  * 🔐 GOOGLE SIGN-IN FUNCTION (Firebase)
  */
+
 suspend fun signInWithGoogle(
     context: Context,
     onSuccess: () -> Unit,
@@ -184,7 +187,7 @@ suspend fun signInWithGoogle(
 
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
-            .setServerClientId("425714815292-ccfc10ep6eoo7auh298l6pncqm720mqu.apps.googleusercontent.com") // 🔥 replace this
+            .setServerClientId("425714815292-ccfc10ep6eoo7auh298l6pncqm720mqu.apps.googleusercontent.com")
             .build()
 
         val request = GetCredentialRequest.Builder()
@@ -192,26 +195,34 @@ suspend fun signInWithGoogle(
             .build()
 
         val result = credentialManager.getCredential(context, request)
-
         val credential = result.credential
-        val idToken = credential.data.getString("id_token")
 
-        if (idToken != null) {
+        // ✅ FIX: Proper credential parsing
+        if (credential is CustomCredential &&
+            credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+        ) {
+
+            val googleCredential = GoogleIdTokenCredential.createFrom(credential.data)
+            val idToken = googleCredential.idToken
+
             val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+
             FirebaseAuth.getInstance()
                 .signInWithCredential(firebaseCredential)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         onSuccess()
                     } else {
-                        onError(Exception("Firebase auth failed"))
+                        onError(task.exception ?: Exception("Firebase sign-in failed"))
                     }
                 }
+
         } else {
-            onError(Exception("No ID token found"))
+            onError(Exception("Invalid credential type"))
         }
 
     } catch (e: Exception) {
+        Log.e("GoogleSignIn", "Error: ${e.message}")
         onError(e)
     }
 }

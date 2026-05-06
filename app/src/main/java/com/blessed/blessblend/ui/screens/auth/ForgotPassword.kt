@@ -1,5 +1,8 @@
 package com.blessed.blessblend.ui.screens.auth
-
+// 🔥 Add imports
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.google.firebase.auth.FirebaseAuth
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,6 +30,7 @@ import com.blessed.blessblend.ui.theme.PrimaryBrown
 import com.blessed.blessblend.ui.theme.SubtitleGray
 import com.blessed.blessblend.ui.theme.TextDark
 import com.blessed.blessblend.ui.theme.TextGray
+import com.blessed.blessblend.ui.theme.brown
 import com.blessed.blessblend.ui.theme.brown1
 
 @Composable
@@ -88,16 +92,49 @@ fun ForgotPasswordScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(64.dp))
 
-        // Send Button
+        val context = LocalContext.current
+        val auth = FirebaseAuth.getInstance()
+
         Button(
-            onClick = {navController.navigate(ROUTE_VERIFYEMAIL) },
+            onClick = {
+
+                if (email.isEmpty()) {
+                    Toast.makeText(context, "Enter your email", Toast.LENGTH_SHORT).show()
+                    return@Button
+                }
+
+                // 🔥 SEND RESET EMAIL (THIS WAS MISSING)
+                auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener { task ->
+
+                        if (task.isSuccessful) {
+
+                            Toast.makeText(
+                                context,
+                                "Reset link sent to your email",
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                            // ✅ PASS EMAIL PROPERLY
+                            navController.navigate("verify_email/$email")
+
+                        } else {
+                            Toast.makeText(
+                                context,
+                                task.exception?.message ?: "Failed to send email",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
             shape = RoundedCornerShape(percent = 50),
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryBrown)
         ) {
-            Text("Send me now", color = Color.White, fontSize = 16.sp)
+            Text("Send me now", color = brown, fontSize = 16.sp)
         }
     }
 }
