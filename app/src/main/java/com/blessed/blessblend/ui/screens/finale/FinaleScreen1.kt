@@ -60,16 +60,16 @@ fun FinaleScreen1(
     var selectedIndex by remember { mutableStateOf(0) }
 
     val productList = listOf(
-        ProductImage(1, R.drawable.finale1, "Look 1"),
-        ProductImage(2, R.drawable.finale1, "Look 2"),
-        ProductImage(3, R.drawable.finale1, "Look 3"),
-        ProductImage(4, R.drawable.finale1, "Look 4"),
-        ProductImage(5, R.drawable.finale1, "Look 5"),
-        ProductImage(6, R.drawable.finale1, "Look 6"),
-        ProductImage(7, R.drawable.finale1, "Look 7"),
-        ProductImage(8, R.drawable.finale1, "Look 8"),
-        ProductImage(9, R.drawable.finale1, "Look 9"),
-        ProductImage(10, R.drawable.finale1, "Look 10")
+        ProductImage(1, R.drawable.finale1a, "Look 1"),
+        ProductImage(2, R.drawable.finale1b, "Look 2"),
+        ProductImage(3, R.drawable.finale1c, "Look 3"),
+        ProductImage(4, R.drawable.finale1d, "Look 4"),
+        ProductImage(5, R.drawable.finale1e, "Look 5"),
+        ProductImage(6, R.drawable.finale1f, "Look 6"),
+        ProductImage(7, R.drawable.finale1g, "Look 7"),
+        ProductImage(8, R.drawable.finale1h, "Look 8"),
+        ProductImage(9, R.drawable.finale1i, "Look 9"),
+        ProductImage(10, R.drawable.finale1j, "Look 10")
     )
 
     Scaffold(

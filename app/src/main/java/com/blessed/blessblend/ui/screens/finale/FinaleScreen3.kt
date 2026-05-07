@@ -1,7 +1,5 @@
 package com.blessed.blessblend.ui.screens.finale
 
-import com.blessed.blessblend.ui.screens.finale.ProductImage
-import com.blessed.blessblend.ui.screens.finale.FavoritesViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -23,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -46,16 +42,16 @@ fun FinaleScreen3(
     var selectedIndex by remember { mutableStateOf(0) }
 
     val productList = listOf(
-        ProductImage(1, R.drawable.finale3, "Look 1"),
-        ProductImage(2, R.drawable.finale3, "Look 2"),
-        ProductImage(3, R.drawable.finale3, "Look 3"),
-        ProductImage(4, R.drawable.finale3, "Look 4"),
-        ProductImage(5, R.drawable.finale3, "Look 5"),
-        ProductImage(6, R.drawable.finale3, "Look 6"),
-        ProductImage(7, R.drawable.finale3, "Look 7"),
-        ProductImage(8, R.drawable.finale3, "Look 8"),
-        ProductImage(9, R.drawable.finale3, "Look 9"),
-        ProductImage(10, R.drawable.finale3, "Look 10")
+        ProductImage(1, R.drawable.finale3a, "Look 1"),
+        ProductImage(2, R.drawable.finale3b, "Look 2"),
+        ProductImage(3, R.drawable.finale3c, "Look 3"),
+        ProductImage(4, R.drawable.finale3d, "Look 4"),
+        ProductImage(5, R.drawable.finale3e, "Look 5"),
+        ProductImage(6, R.drawable.finale3f, "Look 6"),
+        ProductImage(7, R.drawable.finale3g, "Look 7"),
+        ProductImage(8, R.drawable.finale3h, "Look 8"),
+        ProductImage(9, R.drawable.finale3i, "Look 9"),
+        ProductImage(10, R.drawable.finale3j, "Look 10")
     )
 
     Scaffold(
