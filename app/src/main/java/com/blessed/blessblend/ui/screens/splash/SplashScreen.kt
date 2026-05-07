@@ -33,7 +33,7 @@ fun SplashScreen(navController: NavController){
         modifier = Modifier
             .fillMaxSize()
             .paint(
-                painter = painterResource(R.drawable.img),
+                painter = painterResource(R.drawable.logo),
                 contentScale = ContentScale.FillBounds
             )
             .padding(24.dp)
