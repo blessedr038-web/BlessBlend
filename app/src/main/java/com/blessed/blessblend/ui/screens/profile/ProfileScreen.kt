@@ -44,7 +44,7 @@ fun ProfileScreen(navController: NavController) {
         // 🔝 TopBar (UNCHANGED STYLE)
         topBar = {
             TopAppBar(
-                title = { Text("Profile") },
+                title = { Text("Favorites") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")

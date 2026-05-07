@@ -39,7 +39,7 @@ fun Screen2(navController: NavController) {
         // ================= TOP BAR =================
         topBar = {
             TopAppBar(
-                title = { Text("Medium Skin Guide") },
+                title = { Text("Medium Skin Guide", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -62,35 +62,67 @@ fun Screen2(navController: NavController) {
         // ================= BOTTOM BAR =================
         bottomBar = {
             NavigationBar(containerColor = peach) {
-
+// HOME ICON WITH BACKGROUND
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                    label = { Text("Home") },
+                    icon = {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription = "Home"
+                        )
+                    },
+                    label = {
+                        Text("Home")
+                    },
                     selected = selectedIndex == 0,
                     onClick = {
                         selectedIndex = 0
                         navController.navigate(ROUTE_HOME)
-                    }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.White
+                    )
                 )
 
+                // PROFILE ICON WITHOUT BACKGROUND
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
-                    label = { Text("Profile") },
-                    selected = selectedIndex == 1,
-                    onClick = {
-                        selectedIndex = 1
-                        navController.navigate(ROUTE_PROFILE)
-                    }
-                )
-
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
-                    label = { Text("Favorites") },
+                    icon = {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = "Profile"
+                        )
+                    },
+                    label = {
+                        Text("Profile")
+                    },
                     selected = selectedIndex == 2,
                     onClick = {
                         selectedIndex = 2
+                        navController.navigate(ROUTE_PROFILE)
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
+                )
+
+                // FAVORITES ICON WITHOUT WHITE BACKGROUND
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            Icons.Default.Favorite,
+                            contentDescription = "Favorites"
+                        )
+                    },
+                    label = {
+                        Text("Favorites")
+                    },
+                    selected = selectedIndex == 1,
+                    onClick = {
+                        selectedIndex = 1
                         navController.navigate(ROUTE_FAVORITES)
-                    }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
                 )
             }
         }
@@ -123,6 +155,7 @@ fun Screen2(navController: NavController) {
             Text(
                 text = "Golden Hour Glow",
                 fontSize = 21.sp,
+                fontWeight = FontWeight.Bold,
                 color = Color(0xFF4E342E),
                 modifier = Modifier.padding(bottom = 24.dp)
             )
@@ -188,6 +221,7 @@ fun MediumInfoSection(title: String, description: String) {
             text = description,
             fontSize = 16.sp,
             lineHeight = 24.sp,
+            fontWeight = FontWeight.Bold,
             color = Color.DarkGray
         )
     }

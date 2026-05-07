@@ -1,6 +1,8 @@
 package com.blessed.blessblend.navigation
 
 
+
+
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -50,9 +52,7 @@ fun AppNavHost(
         composable(ROUTE_HOME) {
             HomeScreen(navController)
         }
-        composable(ROUTE_FAVORITES) {
-            FavoritesScreen(navController)
-        }
+
 
         composable(ROUTE_REGISTER) {
             RegisterScreen(navController)
@@ -60,6 +60,10 @@ fun AppNavHost(
 
         composable(ROUTE_LOGIN) {
             LoginScreen(navController)
+        }
+
+        composable(ROUTE_FAVORITES) {
+            FavoritesScreen(navController)
         }
 
 

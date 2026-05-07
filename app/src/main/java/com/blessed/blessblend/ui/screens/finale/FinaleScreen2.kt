@@ -1,20 +1,31 @@
 package com.blessed.blessblend.ui.screens.finale
 
+
+import com.blessed.blessblend.ui.screens.finale.ProductImage
+import com.blessed.blessblend.ui.screens.finale.FavoritesViewModel
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
@@ -24,27 +35,64 @@ import com.blessed.blessblend.navigation.ROUTE_PROFILE
 import com.blessed.blessblend.ui.theme.brown1
 import com.blessed.blessblend.ui.theme.peach
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FinaleScreen2(navController: NavController) {
+fun FinaleScreen2(
+    navController: NavController,
+    viewModel: FavoritesViewModel = viewModel()
+) {
 
-    var selectedIndex by remember { mutableStateOf(1) }
+    var selectedIndex by remember { mutableStateOf(0) }
+
+    val productList = listOf(
+        ProductImage(1, R.drawable.finale2, "Look 1"),
+        ProductImage(2, R.drawable.finale2, "Look 2"),
+        ProductImage(3, R.drawable.finale2, "Look 3"),
+        ProductImage(4, R.drawable.finale2, "Look 4"),
+        ProductImage(5, R.drawable.finale2, "Look 5"),
+        ProductImage(6, R.drawable.finale2, "Look 6"),
+        ProductImage(7, R.drawable.finale2, "Look 7"),
+        ProductImage(8, R.drawable.finale2, "Look 8"),
+        ProductImage(9, R.drawable.finale2, "Look 9"),
+        ProductImage(10, R.drawable.finale2, "Look 10")
+    )
 
     Scaffold(
-        // ================= TOP BAR =================
+
         topBar = {
+
             TopAppBar(
-                title = { Text("Finale Screen", fontWeight = FontWeight.Bold) },
+
+                title = {
+                    Text(
+                        text = "Results",
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    ) {
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
                     }
                 },
+
                 actions = {
                     IconButton(onClick = {}) {
-                        Icon(imageVector = Icons.Default.Info, contentDescription = "Info")
+                        Icon(
+                            imageVector = Icons.Default.Info,
+                            contentDescription = "Info"
+                        )
                     }
                 },
+
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = peach,
                     titleContentColor = brown1,
@@ -54,60 +102,170 @@ fun FinaleScreen2(navController: NavController) {
             )
         },
 
-        // ================= BOTTOM BAR =================
         bottomBar = {
-            NavigationBar(containerColor = peach) {
-                // 🏠 HOME
+
+            NavigationBar(
+                containerColor = peach
+            ) {
+
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                    label = { Text("Home") },
+                    icon = {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription = "Home"
+                        )
+                    },
+                    label = {
+                        Text("Home")
+                    },
                     selected = selectedIndex == 0,
                     onClick = {
                         selectedIndex = 0
                         navController.navigate(ROUTE_HOME)
-                    }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.White
+                    )
                 )
 
-                // 👤 PROFILE
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
-                    label = { Text("Profile") },
-                    selected = selectedIndex == 2, // Changed to 2 to avoid conflict with Home
+                    icon = {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = "Profile"
+                        )
+                    },
+                    label = {
+                        Text("Profile")
+                    },
+                    selected = selectedIndex == 2,
                     onClick = {
                         selectedIndex = 2
                         navController.navigate(ROUTE_PROFILE)
-                    }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
                 )
 
-                // ❤️ FAVORITES
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
-                    label = { Text("Favorites") },
+                    icon = {
+                        Icon(
+                            Icons.Default.Favorite,
+                            contentDescription = "Favorites"
+                        )
+                    },
+                    label = {
+                        Text("Favorites")
+                    },
                     selected = selectedIndex == 1,
                     onClick = {
                         selectedIndex = 1
                         navController.navigate(ROUTE_FAVORITES)
-                    }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
                 )
             }
         },
 
-        // ================= CONTENT AREA =================
         content = { paddingValues ->
-            // This combines the Column structure of FinaleScreen1 with the background of ScaffoldScreen
+
             Column(
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
                     .paint(
-                        painter = painterResource(R.drawable.finale2),
+                        painter = painterResource(R.drawable.img),
                         contentScale = ContentScale.FillBounds
                     )
-                    .padding()
             ) {
 
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
 
-                // Your Finale content goes here
+                    items(productList) { product ->
+
+                        val isSaved =
+                            viewModel.savedImages.contains(product)
+
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(220.dp),
+
+                            shape = RoundedCornerShape(16.dp),
+
+                            elevation = CardDefaults.cardElevation(4.dp)
+                        ) {
+
+                            Box {
+
+                                Image(
+                                    painter = painterResource(product.resId),
+                                    contentDescription = product.label,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.Crop
+                                )
+
+                                // FAVORITE BUTTON
+                                IconButton(
+
+                                    // QUICK FIX HERE
+                                    onClick = {viewModel.toggleFavorite(product)},
+
+                                    modifier = Modifier
+                                        .align(Alignment.TopEnd)
+                                        .padding(8.dp)
+                                        .background(
+                                            Color.Black.copy(alpha = 0.3f),
+                                            shape = RoundedCornerShape(50)
+                                        )
+                                ) {
+
+                                    Icon(
+                                        imageVector =
+                                            if (isSaved)
+                                                Icons.Default.Favorite
+                                            else
+                                                Icons.Default.FavoriteBorder,
+
+                                        contentDescription = "Save",
+
+                                        tint =
+                                            if (isSaved)
+                                                Color.Red
+                                            else
+                                                Color.White
+                                    )
+                                }
+
+                                Text(
+                                    text = product.label,
+
+                                    modifier = Modifier
+                                        .align(Alignment.BottomStart)
+                                        .padding(12.dp)
+                                        .background(
+                                            Color.Black.copy(alpha = 0.5f),
+                                            RoundedCornerShape(4.dp)
+                                        )
+                                        .padding(
+                                            horizontal = 8.dp,
+                                            vertical = 4.dp
+                                        ),
+
+                                    color = Color.White,
+                                    fontSize = 14.sp
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     )
@@ -116,5 +274,8 @@ fun FinaleScreen2(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun FinaleScreen2Preview() {
-    FinaleScreen2(rememberNavController())
+
+    FinaleScreen2(
+        rememberNavController()
+    )
 }

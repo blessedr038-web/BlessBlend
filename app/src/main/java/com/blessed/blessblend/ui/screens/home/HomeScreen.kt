@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -43,7 +44,7 @@ fun HomeScreen(navController: NavController) {
         // 🔝 Top Bar
         topBar = {
             TopAppBar(
-                title = { Text("Home") },
+                title = { Text("Home", fontWeight = FontWeight.Bold) },
 
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = peach,
@@ -63,37 +64,67 @@ fun HomeScreen(navController: NavController) {
         bottomBar = {
             NavigationBar(containerColor = peach) {
 
-                // 🏠 HOME
+                // HOME ICON WITH BACKGROUND
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                    label = { Text("Home") },
+                    icon = {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription = "Home"
+                        )
+                    },
+                    label = {
+                        Text("Home")
+                    },
                     selected = selectedIndex == 0,
                     onClick = {
                         selectedIndex = 0
                         navController.navigate(ROUTE_HOME)
-                    }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.White
+                    )
                 )
 
-                // 👤 PROFILE
+                // PROFILE ICON WITHOUT BACKGROUND
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
-                    label = { Text("Profile") },
+                    icon = {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = "Profile"
+                        )
+                    },
+                    label = {
+                        Text("Profile")
+                    },
                     selected = selectedIndex == 2,
                     onClick = {
                         selectedIndex = 2
                         navController.navigate(ROUTE_PROFILE)
-                    }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
                 )
 
-                // ❤️ FAVORITES
+                // FAVORITES ICON WITHOUT WHITE BACKGROUND
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
-                    label = { Text("Favorites") },
+                    icon = {
+                        Icon(
+                            Icons.Default.Favorite,
+                            contentDescription = "Favorites"
+                        )
+                    },
+                    label = {
+                        Text("Favorites")
+                    },
                     selected = selectedIndex == 1,
                     onClick = {
                         selectedIndex = 1
                         navController.navigate(ROUTE_FAVORITES)
-                    }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.Transparent
+                    )
                 )
             }
         }
