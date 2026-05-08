@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
-import com.blessed.blessblend.navigation.ROUTE_ONBOARDING
 import com.blessed.blessblend.models.FavoritesManager
+import com.blessed.blessblend.navigation.ROUTE_ONBOARDING
 import kotlinx.coroutines.delay
 
 @Composable

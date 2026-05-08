@@ -1,5 +1,7 @@
 package com.blessed.blessblend.models
 
+
+
 import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
