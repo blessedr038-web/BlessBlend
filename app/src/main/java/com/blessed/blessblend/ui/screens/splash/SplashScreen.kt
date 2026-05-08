@@ -20,23 +20,22 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(navController: NavController){
 
-    // 🚀 Runs once when screen opens
+    // 🚀 High-speed navigation logic
     LaunchedEffect(Unit) {
+        // 1. Start loading favorites (added {} to fix the compiler error)
+        FavoritesManager.loadFromFirebase { }
 
-        // ⏳ Optional small delay (keeps splash visible)
+        // 2. Hard timer: Navigate exactly after 2 seconds
         delay(2000)
 
-        // 🔥 LOAD FAVORITES FROM FIREBASE BEFORE ENTERING APP
-        FavoritesManager.loadFromFirebase {
-
-            // 🚀 Navigate after sync completes
-            navController.navigate(ROUTE_ONBOARDING) {
-                popUpTo(0) // clears splash from backstack
+        navController.navigate(ROUTE_ONBOARDING) {
+            popUpTo(navController.graph.startDestinationId) {
+                inclusive = true
             }
         }
     }
 
-    // 🔒 UI unchanged (NO MODIFICATIONS)
+    // 🔒 UI (STRICTLY UNCHANGED)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,9 +44,7 @@ fun SplashScreen(navController: NavController){
                 contentScale = ContentScale.FillBounds
             )
             .padding(24.dp)
-    ) {
-
-    }
+    ) { }
 }
 
 @Preview(showBackground = true)
