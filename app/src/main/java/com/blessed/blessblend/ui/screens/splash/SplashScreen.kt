@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
 import com.blessed.blessblend.navigation.ROUTE_ONBOARDING
+import com.blessed.blessblend.models.FavoritesManager
 import kotlinx.coroutines.delay
 
 @Composable
@@ -21,14 +22,21 @@ fun SplashScreen(navController: NavController){
 
     // 🚀 Runs once when screen opens
     LaunchedEffect(Unit) {
-        delay(2000) // 2 seconds delay
 
-        navController.navigate(ROUTE_ONBOARDING) {
-            popUpTo(0) // clears splash from backstack
+        // ⏳ Optional small delay (keeps splash visible)
+        delay(2000)
+
+        // 🔥 LOAD FAVORITES FROM FIREBASE BEFORE ENTERING APP
+        FavoritesManager.loadFromFirebase {
+
+            // 🚀 Navigate after sync completes
+            navController.navigate(ROUTE_ONBOARDING) {
+                popUpTo(0) // clears splash from backstack
+            }
         }
     }
 
-    // 🔒 UI unchanged
+    // 🔒 UI unchanged (NO MODIFICATIONS)
     Column(
         modifier = Modifier
             .fillMaxSize()
