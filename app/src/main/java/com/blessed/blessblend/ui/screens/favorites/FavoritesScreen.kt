@@ -4,7 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,36 +15,28 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
-import com.blessed.blessblend.navigation.ROUTE_FAVORITES
 import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.navigation.ROUTE_PROFILE
-import com.blessed.blessblend.ui.screens.finale.FavoritesViewModel
-import com.blessed.blessblend.ui.theme.TextDark
+import com.blessed.blessblend.ui.screens.finale.FavoritesManager
 import com.blessed.blessblend.ui.theme.brown1
 import com.blessed.blessblend.ui.theme.peach
-
 
 // ---------------- FAVORITES SCREEN ----------------
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(
-    navController: NavController,
-    viewModel: FavoritesViewModel = viewModel()
+    navController: NavController
 ) {
 
     var selectedIndex by remember { mutableStateOf(1) }
@@ -160,7 +151,8 @@ fun FavoritesScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                items(viewModel.savedImages) { product ->
+                // ✅ SHARED FAVORITES LIST
+                items(FavoritesManager.savedImages) { product ->
 
                     Card(
                         modifier = Modifier
@@ -180,6 +172,28 @@ fun FavoritesScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop
                             )
+
+                            // REMOVE FAVORITE BUTTON
+                            IconButton(
+                                onClick = {
+                                    FavoritesManager.toggleFavorite(product)
+                                },
+
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(8.dp)
+                                    .background(
+                                        Color.Black.copy(alpha = 0.3f),
+                                        shape = RoundedCornerShape(50)
+                                    )
+                            ) {
+
+                                Icon(
+                                    imageVector = Icons.Default.Favorite,
+                                    contentDescription = "Remove Favorite",
+                                    tint = Color.Red
+                                )
+                            }
 
                             Text(
                                 text = product.label,
@@ -210,5 +224,8 @@ fun FavoritesScreen(
 @Preview(showBackground = true)
 @Composable
 fun FavoritesScreenPreview() {
-    FavoritesScreen(rememberNavController())
+
+    FavoritesScreen(
+        rememberNavController()
+    )
 }

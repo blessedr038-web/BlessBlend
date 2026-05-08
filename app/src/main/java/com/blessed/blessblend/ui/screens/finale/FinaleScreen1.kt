@@ -22,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
@@ -31,13 +30,18 @@ import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.navigation.ROUTE_PROFILE
 import com.blessed.blessblend.ui.theme.brown1
 import com.blessed.blessblend.ui.theme.peach
+
+// ---------------- PRODUCT MODEL ----------------
+
 data class ProductImage(
     val id: Int,
     val resId: Int,
     val label: String
 )
 
-class FavoritesViewModel : ViewModel() {
+// ---------------- SHARED FAVORITES ----------------
+
+object FavoritesManager {
 
     val savedImages = mutableStateListOf<ProductImage>()
 
@@ -49,12 +53,22 @@ class FavoritesViewModel : ViewModel() {
             savedImages.add(product)
         }
     }
+
+    fun isFavorite(product: ProductImage): Boolean {
+        return savedImages.contains(product)
+    }
 }
+
+// ---------------- VIEWMODEL ----------------
+
+class FavoritesViewModel : ViewModel()
+
+// ---------------- SCREEN ----------------
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FinaleScreen1(
-    navController: NavController,
-    viewModel: FavoritesViewModel = viewModel()
+    navController: NavController
 ) {
 
     var selectedIndex by remember { mutableStateOf(0) }
@@ -205,7 +219,7 @@ fun FinaleScreen1(
                     items(productList) { product ->
 
                         val isSaved =
-                            viewModel.savedImages.contains(product)
+                            FavoritesManager.isFavorite(product)
 
                         Card(
                             modifier = Modifier
@@ -229,8 +243,9 @@ fun FinaleScreen1(
                                 // FAVORITE BUTTON
                                 IconButton(
 
-                                    // QUICK FIX HERE
-                                    onClick = {viewModel.toggleFavorite(product)},
+                                    onClick = {
+                                        FavoritesManager.toggleFavorite(product)
+                                    },
 
                                     modifier = Modifier
                                         .align(Alignment.TopEnd)

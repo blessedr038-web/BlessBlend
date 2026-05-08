@@ -7,9 +7,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -20,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
@@ -30,16 +31,13 @@ import com.blessed.blessblend.navigation.ROUTE_PROFILE
 import com.blessed.blessblend.ui.theme.brown1
 import com.blessed.blessblend.ui.theme.peach
 
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FinaleScreen3(
-    navController: NavController,
-    viewModel: FavoritesViewModel = viewModel()
+    navController: NavController
 ) {
 
-    var selectedIndex by remember { mutableStateOf(0) }
+    var selectedIndex by remember { mutableIntStateOf(0) }
 
     val productList = listOf(
         ProductImage(1, R.drawable.finale3a, "Look 1"),
@@ -74,7 +72,7 @@ fun FinaleScreen3(
                         }
                     ) {
                         Icon(
-                            Icons.Default.ArrowBack,
+                            Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -187,7 +185,7 @@ fun FinaleScreen3(
                     items(productList) { product ->
 
                         val isSaved =
-                            viewModel.savedImages.contains(product)
+                            FavoritesManager.isFavorite(product)
 
                         Card(
                             modifier = Modifier
@@ -211,8 +209,9 @@ fun FinaleScreen3(
                                 // FAVORITE BUTTON
                                 IconButton(
 
-                                    // QUICK FIX HERE
-                                    onClick = {viewModel.toggleFavorite(product)},
+                                    onClick = {
+                                        FavoritesManager.toggleFavorite(product)
+                                    },
 
                                     modifier = Modifier
                                         .align(Alignment.TopEnd)
