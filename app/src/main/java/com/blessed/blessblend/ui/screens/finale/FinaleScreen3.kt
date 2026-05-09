@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
+import com.blessed.blessblend.models.FavoritesManager
 import com.blessed.blessblend.navigation.ROUTE_FAVORITES
 import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.navigation.ROUTE_PROFILE

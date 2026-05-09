@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
+import com.blessed.blessblend.models.FavoritesManager
 import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.navigation.ROUTE_PROFILE
-import com.blessed.blessblend.ui.screens.finale.FavoritesManager
 import com.blessed.blessblend.ui.theme.brown1
 import com.blessed.blessblend.ui.theme.peach
 

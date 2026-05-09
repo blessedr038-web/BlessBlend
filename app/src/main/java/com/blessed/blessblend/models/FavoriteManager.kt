@@ -3,11 +3,13 @@ package com.blessed.blessblend.models
 import androidx.compose.runtime.mutableStateListOf
 import com.blessed.blessblend.ui.screens.finale.ProductImage
 
+// 🎯 This import MUST match where your ProductImage file is located
+
 object FavoritesManager {
     val savedImages = mutableStateListOf<ProductImage>()
     private val repo = FavoritesRepository()
 
-    // 🔥 Use the UID from your screenshot so you can see it in the console!
+    // 🎯 Matches your Firebase console UID
     private const val userId = "PdP2w9020zQi1OK1oMEzzBjszBh2"
 
     fun toggleFavorite(product: ProductImage) {
@@ -22,7 +24,8 @@ object FavoritesManager {
                 id = product.id,
                 imageResId = product.resId,
                 label = product.label,
-                imageUrl = "https://placeholder.com/img_${product.id}.jpg" // 🔥 Dummy URL so it appears
+                // 🔥 "pending" ensures the URL key is created in the console
+                imageUrl = if (product.imageUrl.isEmpty()) "pending" else product.imageUrl
             )
             repo.addFavorite(userId, backendModel)
         }
@@ -30,12 +33,19 @@ object FavoritesManager {
 
     fun isFavorite(product: ProductImage): Boolean = savedImages.any { it.id == product.id }
 
-    fun loadFromFirebase(function: () -> Unit) {
+    fun loadFromFirebase(onDone: () -> Unit = {}) {
         repo.getFavorites(userId) { list ->
             savedImages.clear()
+            // Map the backend data back into UI-friendly ProductImage objects
             savedImages.addAll(list.map {
-                ProductImage(id = it.id, resId = it.imageResId, label = it.label)
+                ProductImage(
+                    id = it.id,
+                    resId = it.imageResId,
+                    label = it.label,
+                    imageUrl = it.imageUrl
+                )
             })
+            onDone()
         }
     }
 }

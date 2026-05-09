@@ -1,5 +1,6 @@
 package com.blessed.blessblend.ui.screens.finale
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -21,10 +21,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.blessed.blessblend.R
+import com.blessed.blessblend.models.FavoritesManager
 import com.blessed.blessblend.navigation.ROUTE_FAVORITES
 import com.blessed.blessblend.navigation.ROUTE_HOME
 import com.blessed.blessblend.navigation.ROUTE_PROFILE
@@ -35,33 +35,10 @@ import com.blessed.blessblend.ui.theme.peach
 
 data class ProductImage(
     val id: Int,
-    val resId: Int,
-    val label: String
+    @DrawableRes val resId: Int,
+    val label: String,
+    val imageUrl: String = "pending"
 )
-
-// ---------------- SHARED FAVORITES ----------------
-
-object FavoritesManager {
-
-    val savedImages = mutableStateListOf<ProductImage>()
-
-    fun toggleFavorite(product: ProductImage) {
-
-        if (savedImages.contains(product)) {
-            savedImages.remove(product)
-        } else {
-            savedImages.add(product)
-        }
-    }
-
-    fun isFavorite(product: ProductImage): Boolean {
-        return savedImages.contains(product)
-    }
-}
-
-// ---------------- VIEWMODEL ----------------
-
-class FavoritesViewModel : ViewModel()
 
 // ---------------- SCREEN ----------------
 
